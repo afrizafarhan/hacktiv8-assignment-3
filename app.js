@@ -8,6 +8,8 @@ app.use(express.json());
 
 app.use(router);
 
-app.listen(PORT, () => {
-  console.log(`Running on Port ${PORT}`);
-})
+// app.listen(PORT, () => {
+//   console.log(`Running on Port ${PORT}`);
+// })
+
+module.exports = app;

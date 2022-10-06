@@ -3,20 +3,19 @@ const { User } = require("../models");
 const { generateToken } = require("../helpers/jwt");
 
 class UserController {
-  static register(req, res) {
-    const { email, password, username } = req.body;
-    User.create({ email, password, username})
-      .then(result => {
-        const response = {
-          id: result.id,
-          username: result.username,
-          email: result.email
-        }
-        res.status(201).json(response);
-      })
-      .catch(err => {
-        return res.status(500).json(err);
-      });
+  static async register(req, res) {
+    try {
+      const { email, password, username } = req.body;
+      const result = await User.create({ email, password, username})
+      const response = {
+        id: result.id,
+        username: result.username,
+        email: result.email
+      }
+      res.status(201).json(response);
+    } catch (err) {
+      return res.status(500).json(err);
+    }
   }
 
   static login(req, res) {
@@ -43,7 +42,7 @@ class UserController {
         const token = generateToken(response);
         return res.status(200).json({token});
       }).catch(err => {
-        res.status(500).json(err)
+        res.status(401).json(err)
       })
   }
 }

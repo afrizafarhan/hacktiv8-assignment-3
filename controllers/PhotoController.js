@@ -1,12 +1,16 @@
 const { Photo, User } = require('../models');
 
 class PhotoController {
-  static getAllPhotos(req, res) {
-    Photo.findAll({
-      include: User
-    })
-      .then(result => res.json(result))
-      .catch(err => res.status(500).json(err));
+  static async getAllPhotos(req, res) {
+    try {
+      const result = await Photo.findAll({
+        include: User
+      });
+
+      res.json(result);
+    } catch (err) {
+      res.status(500).json(err)
+    }
   }
 
   static getOnePhotoById(req, res) {
